@@ -51,7 +51,7 @@ async def get_district(update: Update, context: ContextTypes.DEFAULT_TYPE):
 
     return ConversationHandler.END
 
-app = ApplicationBuilder().token("PASTE_YOUR_BOT_TOKEN_HERE").build()
+app = ApplicationBuilder().token("8160024624:AAFAI0alIhc6XdSc6WSB3LgKztxiDh2rYcE").build()
 
 conv_handler = ConversationHandler(
     entry_points=[CommandHandler('start', start)],
