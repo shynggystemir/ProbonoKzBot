@@ -51,7 +51,7 @@ def generate_document():
     doc.add_paragraph("... (тело заявления вставляется по шаблону) ...")
     doc.save("/mnt/data/zayavlenie_ali.docx")
 
-app = ApplicationBuilder().token("PASTE_YOUR_BOT_TOKEN_HERE").build()
+app = ApplicationBuilder().token("тут_твой_реальный_токен_от_BotFather").build()
 
 conv_handler = ConversationHandler(
     entry_points=[CommandHandler('start', start)],
