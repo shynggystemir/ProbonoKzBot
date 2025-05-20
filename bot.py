@@ -75,4 +75,4 @@ conv_handler = ConversationHandler(
 )
 
 app.add_handler(conv_handler)
-# app.run_polling() — запусти вручную
+app.run_polling()
