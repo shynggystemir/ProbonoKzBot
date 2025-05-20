@@ -9,11 +9,18 @@ user_data = {}
 logging.basicConfig(format='%(asctime)s - %(name)s - %(levelname)s - %(message)s', level=logging.INFO)
 
 async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    logging.info("Начало диалога с пользователем")
     await update.message.reply_text("Привет! Введи своё ФИО в именительном падеже:")
     return FIO_IM
 
 async def get_input(update: Update, context: ContextTypes.DEFAULT_TYPE, key, next_state):
-    user_data[key] = update.message.text
+    if not update.message or not update.message.text:
+        await update.message.reply_text("Пожалуйста, введите текст.")
+        return next_state
+
+    text = update.message.text.strip()
+    user_data[key] = text
+    logging.info(f"Получено {key}: {text}")
     return next_state
 
 async def get_fio_im(update, context): return await get_input(update, context, 'fio_im', FIO_DAT)
@@ -29,7 +36,9 @@ async def get_child_name(update, context): return await get_input(update, contex
 async def get_child_birth(update, context): return await get_input(update, context, 'child_birth', BIRTH_CONFIRMED)
 
 async def get_birth_confirmed(update, context):
-    if update.message.text.lower() != "да":
+    text = update.message.text.strip().lower()
+    logging.info(f"Подтверждение отцовства: {text}")
+    if text != "да":
         await update.message.reply_text("Если должник не указан в свидетельстве — подаётся иск, а не судебный приказ.")
         return ConversationHandler.END
     return MARRIAGE_STATUS
@@ -37,7 +46,9 @@ async def get_birth_confirmed(update, context):
 async def get_marriage_status(update, context): return await get_input(update, context, 'marriage_status', DISTRICT)
 
 async def get_district(update: Update, context: ContextTypes.DEFAULT_TYPE):
-    user_data['district'] = update.message.text
+    text = update.message.text.strip()
+    user_data['district'] = text
+    logging.info(f"Район: {text}")
     generate_document()
     await update.message.reply_text("Черновик заявления создан. Скачай его по ссылке: zayavlenie_ali.docx")
     return ConversationHandler.END
@@ -50,6 +61,7 @@ def generate_document():
     doc.add_paragraph(f"Телефон: {user_data['phone']}")
     doc.add_paragraph("... (тело заявления вставляется по шаблону) ...")
     doc.save("/mnt/data/zayavlenie_ali.docx")
+    logging.info("Файл заявления успешно сохранён")
 
 app = ApplicationBuilder().token("8160024624:AAFAI0alIhc6XdSc6WSB3LgKztxiDh2rYcE").build()
 
