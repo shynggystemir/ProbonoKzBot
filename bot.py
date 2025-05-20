@@ -68,9 +68,11 @@ async def get_district(update: Update, context: ContextTypes.DEFAULT_TYPE):
     doc.add_paragraph("Прошу выдать судебный приказ о взыскании алиментов на содержание несовершеннолетнего ребёнка "
                       f"{user_data['child_name']} с должника {user_data['fio_rod_debtor']} в размере 1/4 от доходов ежемесячно, "
                       "начиная с даты подачи заявления и до достижения ребёнком совершеннолетия.")
-    doc.save("/mnt/data/zayavlenie_ali_full.docx")
+    doc.save("zayavlenie_ali_full.docx")
 
-    await update.message.reply_text("Черновик заявления готов! Скачай его по ссылке: zayavlenie_ali_full.docx")
+    with open("zayavlenie_ali_full.docx", "rb") as file:
+    await update.message.reply_document(file)
+
     return ConversationHandler.END
 
 app = ApplicationBuilder().token("8160024624:AAFAI0alIhc6XdSc6WSB3LgKztxiDh2rYcE").build()
