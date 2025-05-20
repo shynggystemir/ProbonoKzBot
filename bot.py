@@ -73,7 +73,7 @@ async def get_district(update: Update, context: ContextTypes.DEFAULT_TYPE):
     await update.message.reply_text("Черновик заявления готов! Скачай его по ссылке: zayavlenie_ali_full.docx")
     return ConversationHandler.END
 
-app = ApplicationBuilder().token("PASTE_YOUR_BOT_TOKEN_HERE").build()
+app = ApplicationBuilder().token("8160024624:AAFAI0alIhc6XdSc6WSB3LgKztxiDh2rYcE").build()
 
 conv_handler = ConversationHandler(
     entry_points=[CommandHandler('start', start)],
